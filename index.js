@@ -18,7 +18,9 @@ var idBtnPlus2 = "btn-plus-2";
 var idTxtInput2 = "input-txt-2";
 var idPriceItem2 = "price-item-2";
 
-
+var idSubtotal = "subtotal";
+var idTax = "tax";
+var idTotal = "total";
 
 // ---------------------------------------
 
@@ -39,10 +41,9 @@ function getTxtInput(id) {
 }
 
 
-// update each product total price UNCHECKED
+// update each product total price
 function updateItemPrice (id,totalPrice) {
     var element = getElement(id);
-
     element.innerHTML = totalPrice;
 }
 
@@ -57,6 +58,8 @@ function decrement(idTxtInput, idPriceItem, unitPrice) {
 
     updateItemAmount(idTxtInput, quantity);
     updateItemPrice(idPriceItem,(unitPrice*quantity));
+
+    updateTotalCostSection ();
 }
 
 function increment(idTxtInput, idPriceItem, unitPrice) {
@@ -65,6 +68,26 @@ function increment(idTxtInput, idPriceItem, unitPrice) {
 
     updateItemAmount(idTxtInput, quantity);
     updateItemPrice(idPriceItem,(unitPrice*quantity));
+
+    updateTotalCostSection ();
+}
+
+
+function updateTotalCostSection () {
+    var iPhnTotalCost = Number(getElement(idPriceItem1).innerHTML);
+    var phnCoverTotalCost = Number(getElement(idPriceItem2).innerHTML);
+
+    var subtotal = iPhnTotalCost + phnCoverTotalCost;
+    var tax = Number((subtotal*0.1).toFixed(2));
+    var total = subtotal+tax;
+
+    getElement(idSubtotal).innerHTML = subtotal.toLocaleString();
+    getElement(idTax).innerHTML = tax.toLocaleString();
+    getElement(idTotal).innerHTML = total.toLocaleString();
+
+    // console.log("subtotal: ",subtotal);
+    // console.log("tax: ",tax);
+    // console.log("total: ",total);
 }
 
 
@@ -95,4 +118,4 @@ getElement(idBtnPlus2).addEventListener('click', function () {
     increment(idTxtInput2, idPriceItem2,unitPricePhnCover);
 });
 
-
+updateTotalCostSection ();
