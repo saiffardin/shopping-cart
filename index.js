@@ -7,16 +7,20 @@
 const unitPriceIphone = 1219;
 const unitPricePhnCover = 59;
 
+var idItem1 = "row-item-1";
+var idItem2 = "row-item-2";
 
 var idBtnMinus1 = "btn-minus-1";
 var idBtnPlus1 = "btn-plus-1";
 var idTxtInput1 = "input-txt-1";
 var idPriceItem1 = "price-item-1";
+var idRemoveItem1 = "remove-item-1";
 
 var idBtnMinus2 = "btn-minus-2";
 var idBtnPlus2 = "btn-plus-2";
 var idTxtInput2 = "input-txt-2";
 var idPriceItem2 = "price-item-2";
+var idRemoveItem2 = "remove-item-2";
 
 var idSubtotal = "subtotal";
 var idTax = "tax";
@@ -45,6 +49,7 @@ function getTxtInput(id) {
 function updateItemPrice (id,totalPrice) {
     var element = getElement(id);
     element.innerHTML = totalPrice;
+    updateTotalCostSection ();
 }
 
 function decrement(idTxtInput, idPriceItem, unitPrice) {
@@ -58,8 +63,7 @@ function decrement(idTxtInput, idPriceItem, unitPrice) {
 
     updateItemAmount(idTxtInput, quantity);
     updateItemPrice(idPriceItem,(unitPrice*quantity));
-
-    updateTotalCostSection ();
+    
 }
 
 function increment(idTxtInput, idPriceItem, unitPrice) {
@@ -69,7 +73,6 @@ function increment(idTxtInput, idPriceItem, unitPrice) {
     updateItemAmount(idTxtInput, quantity);
     updateItemPrice(idPriceItem,(unitPrice*quantity));
 
-    updateTotalCostSection ();
 }
 
 
@@ -85,9 +88,12 @@ function updateTotalCostSection () {
     getElement(idTax).innerHTML = tax.toLocaleString();
     getElement(idTotal).innerHTML = total.toLocaleString();
 
-    // console.log("subtotal: ",subtotal);
-    // console.log("tax: ",tax);
-    // console.log("total: ",total);
+}
+
+function removeItem (id_item,id_item_price) {
+    var element = getElement(id_item);
+    element.style.display = 'none';
+    updateItemPrice(id_item_price,0);
 }
 
 
@@ -105,6 +111,12 @@ getElement(idBtnPlus1).addEventListener('click', function () {
 });
 
 
+//  item-1 remove clicked
+getElement(idRemoveItem1).addEventListener('click',function(){
+    removeItem(idItem1,idPriceItem1);
+});
+
+
 // ---------------------------------------
 
 // item-2 minus clicked
@@ -117,5 +129,13 @@ getElement(idBtnMinus2).addEventListener('click', function () {
 getElement(idBtnPlus2).addEventListener('click', function () {
     increment(idTxtInput2, idPriceItem2,unitPricePhnCover);
 });
+
+
+//  item-2 remove clicked
+getElement(idRemoveItem2).addEventListener('click',function(){
+    removeItem(idItem2,idPriceItem2);
+});
+
+// ---------------------------------------
 
 updateTotalCostSection ();
